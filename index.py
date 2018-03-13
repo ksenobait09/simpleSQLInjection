@@ -2,12 +2,6 @@ import cherrypy
 import os, os.path
 from mako.template import Template
 import pymysql.cursors
-database = pymysql.connect(host='localhost',
-                                 user='labs',
-                                 password='0000',
-                                 db='labs',
-                                 charset='utf8',
-                                 cursorclass=pymysql.cursors.DictCursor)
 
 SERVER_PORT = 8001
 SERVER_HOST = '127.0.0.1'
@@ -17,6 +11,12 @@ SERVER_HOST = '127.0.0.1'
 class SqlInjectionServer(object):
     @cherrypy.expose
     def index(self, search_text = None):
+        database = pymysql.connect(host='localhost',
+                                         user='labs',
+                                         password='0000',
+                                         db='labs',
+                                         charset='utf8',
+                                         cursorclass=pymysql.cursors.DictCursor)
         mytemplate = Template(filename='static/template/index.html')
         with database.cursor() as cursor:
             if search_text is None:
